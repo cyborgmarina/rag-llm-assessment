@@ -11,9 +11,12 @@ RUN pip install poetry
 # Install the dependencies
 RUN poetry install --no-root
 
+# Langchain
+RUN poetry add uvicorn langchain langchain-community langchain-weaviate
+
 # Embedding models dependencies
 RUN poetry add spacy
-RUN poetry run spacy download pt_core_news_sm
+RUN poetry run spacy download pt_core_news_sm 
 
 # Copy the rest of the application code
 COPY . /app

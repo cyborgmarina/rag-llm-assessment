@@ -6,8 +6,7 @@ authors = ["Marina Rosa <marina@tecno.capital>"]
 
 [tool.poetry.dependencies]
 python = "^3.11"
-fastapi = "^0.70.0"
-uvicorn = "^0.15.0"
+fastapi = "^0.110.3"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

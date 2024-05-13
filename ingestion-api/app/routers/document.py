@@ -1,12 +1,18 @@
 from fastapi import APIRouter, HTTPException, status
 from app.models import Document
-from app.database import documents
+from app.services import DocumentService
 
 router = APIRouter()
 
+document_service = DocumentService()
+
 @router.post("/document", status_code=status.HTTP_201_CREATED)
 async def ingest_document(document: Document):
-    if document.text in documents:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Duplicate text detected")
-    documents.add(document.text)
-    return {"message": "Document ingested successfully"}
+    try:
+        document_service.add_document(document)
+        return {"message": "Document ingested successfully"}
+    except HTTPException as e:
+        raise e
+    except Exception as e:
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
+
