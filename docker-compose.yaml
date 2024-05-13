@@ -1,0 +1,49 @@
+services:
+  ingestion-api:
+    build:
+      context: ./ingestion-api
+    volumes:
+      - ./ingestion-api:/app
+      - /app/venv
+    ports:
+
+      - "8001:8000"
+    command: poetry run uvicorn app.main:app --host 0.0.0.0 --port 8000
+    depends_on:
+      - vectordb
+
+  retrieval-api:
+    build:
+      context: ./retrieval-api
+    volumes:
+      - ./retrieval-api:/app
+      - /app/venv
+    ports:
+      - "8002:8000"
+    command: poetry run uvicorn app.main:app --host 0.0.0.0 --port 8000
+    depends_on:
+      - vectordb
+
+  vectordb:
+    command:
+    - --host
+    - 0.0.0.0
+    - --port
+    - '8080'
+    - --scheme
+    - http
+    image: cr.weaviate.io/semitechnologies/weaviate:1.25.0
+    ports:
+    - 8080:8080
+    - 50051:50051
+    volumes:
+    - weaviate_data:/var/lib/weaviate
+    restart: on-failure:0
+    environment:
+      QUERY_DEFAULTS_LIMIT: 25
+      AUTHENTICATION_ANONYMOUS_ACCESS_ENABLED: 'true'
+      PERSISTENCE_DATA_PATH: '/var/lib/weaviate'
+      DEFAULT_VECTORIZER_MODULE: 'none'
+      CLUSTER_HOSTNAME: 'node1'
+volumes:
+  weaviate_data:
