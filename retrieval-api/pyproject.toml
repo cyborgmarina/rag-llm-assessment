@@ -1,0 +1,14 @@
+[tool.poetry]
+name = "retrieval-api"
+version = "0.1.0"
+description = "A service for retrieving context from a vector store database using similarity search on an user's query and generating responses using an LLM."
+authors = ["Marina Rosa <marina@tecno.capital>"]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = "^0.70.0"
+uvicorn = "^0.15.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
