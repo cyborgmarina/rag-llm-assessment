@@ -9,8 +9,6 @@ services:
     ports:
       - "8001:8000"
     command: poetry run uvicorn app.main:app --host 0.0.0.0 --port 8000
-    networks:
-      - hotmart_challenge
     depends_on:
       - vectordb
 
@@ -28,8 +26,6 @@ services:
 
   vectordb:
     image: cr.weaviate.io/semitechnologies/weaviate:1.25.0
-    networks:
-      - hotmart_challenge
     command:
       - --host
       - 0.0.0.0
@@ -37,9 +33,6 @@ services:
       - '8080'
       - --scheme
       - http
-    ports:
-      - 8080:8080
-      - 50051:50051
     volumes:
       - weaviate_data:/var/lib/weaviate
     restart: on-failure:0
@@ -51,7 +44,3 @@ services:
       CLUSTER_HOSTNAME: 'node1'
 volumes:
   weaviate_data:
-
-networks:
-  hotmart_challenge:
-    external: true

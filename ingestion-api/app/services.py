@@ -48,9 +48,9 @@ class DocumentService:
 
     def _split_text(self, texts: List[str]) -> List[str]:
         text_splitter = CharacterTextSplitter(
-            separator="",
+            separator=" ",
             chunk_size=1000,
-            chunk_overlap=0,
+            chunk_overlap=200,
             length_function=len,
             is_separator_regex=False
         )
