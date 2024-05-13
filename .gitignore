@@ -147,10 +147,6 @@ docker-compose.override.yml
 logs/
 .env.docker
 
-# Docker artifacts
-**/Dockerfile
-**/docker-compose.yaml
-
 # Additional directories and files specific to your project
 ingestion-api/venv
 retrieval-api/venv
