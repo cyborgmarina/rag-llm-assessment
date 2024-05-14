@@ -1,21 +1,18 @@
 # Machine Learning Engineer (AI Platform) Assessment
 
 ## Quickstart
-1. Get an API key from[Open Router](https://openrouter.ai/) as it hosts free version of open source models, in this case, llama3-8b. 
-2. Set environment variables for Open Router's API: 
+1. Get an API key from [Open Router](https://openrouter.ai/) as it hosts free versions of open source models, in this case, llama3-8b. 
+2. Copy `.env.example ` to `.env` in root directory of the project, and change API_KEY on `.env` accordingly:
 ```bash
-export ASSESSMENT_CHAT_MODEL="meta-llama/llama-3-8b-instruct:free"
-export ASSESSMENT_BASE_URL="https://openrouter.ai/api/v1"
-export ASSESSMENT_API_KEY="<api-key-from-open-router>"
+API_KEY="<api-key-from-open-router>"
 ```
-	    ***Any other OpenAI-compatible provider can be used,** 
-3. Spin up APIs and vectorstore containers using *docker-compose*:
+1. Spin up APIs and vectorstore containers using *docker-compose*:
 	```bash
 	docker-compose up --build
 	```
 4. **cURL to send example.txt file, split into chunks and add chunks as documents on vectorstore**:
 ```bash
-curl -X POST "http://localhost:8001/api/document" -F "file=@example.txt
+curl -X POST "http://localhost:8001/api/document" -F "file=@example.txt"
 ``` 
 5. **cURL to send a question to the knowledge base and receive both context used and LLM-generated response:**
  ```bash
@@ -33,10 +30,10 @@ curl -X POST "http://localhost:8001/api/document" -F "file=@example.txt
 ## Experimenting and optimizing
 
 ### Swap models and providers
-- ASSESSMENT_CHAT_MODEL, ASSESSMENT_BASE_URL and ASSESSMENT_API_KEY environment variables can be changed if provider has OpenAI-compatible endpoints. For `llama3-8b`, I would recommend hosted APIs like **OpenRouter** and **Groq** or [Ollama](https://ollama.com/) for locally running open source models.
+- CHAT_MODEL, BASE_URL and API_KEY environment variables can be changed on `.env` file if provider has OpenAI-compatible endpoints. For `llama3-8b`, I would recommend hosted APIs like **OpenRouter** and **Groq** or [Ollama](https://ollama.com/) for locally running open source models.
 ### Tuning Text Splitting
-- CHUNK_SIZE and CHUNK_OVERLAP parameters can be changed through environment variables:
+- CHUNK_SIZE and CHUNK_OVERLAP parameters can be changed on `.env` :
   ```bash
-  docker compose down -v
-  CHUNK_SIZE=1000 CHUNK_OVERLAP=20 docker-compose up --build
+  CHUNK_SIZE=1000 
+  CHUNK_OVERLAP=20
   ```
