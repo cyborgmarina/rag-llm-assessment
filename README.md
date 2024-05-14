@@ -1,38 +1,42 @@
 # Machine Learning Engineer (AI Platform) Assessment
 
-## Challenge
-
-Demonstrate skills in applying existing technologies to create a knowledge-based LLM prototype by developing two microservices:
-
-1. A microservice that receives a text document, processes it, and stores it in a Vector Database.
-2. An API that, given an input text in the form of a question, searches the knowledge base for relevant context and uses it as input for an LLM to generate a response.
-
-### Important Points to Consider:
-
-- Use proprietary (API) and/or open-source models.
-  - Open-source models are strongly encouraged. If not possible due to time or resource constraints, proprietary technologies, such as OpenAI, are acceptable.
-
-- Utilize an open-source Vector Database. 
-  - Focus on retrieving the most relevant information given a question to construct the response with the LLM.
-
-- Ensure both APIs and the VectorDB work locally via Docker compose.
-
-### Submission Requirements:
-
-- `docker-compose.yaml` file for reproducibility of the challenge.
-- Codes used to generate the test steps (.py), including APIs, infrastructure, and prompts. Provide an executable code structure. `.ipynb` files will not be evaluated.
-- `README.md` with project information and step-by-step instructions on how to run it.
-- A set of input examples (Postman, cURL, shell scripts, etc.) for testing and reproducibility.
-
-### Load
-### Query
-1. Make sure jq is installed. You can install it using your package manager, for example:
-```sh
-sudo apt-get install jq      # On Debian/Ubuntu
-sudo yum install jq          # On CentOS/RHEL
-brew install jq
+## Quickstart
+1. Get an API key from[Open Router](https://openrouter.ai/) as it hosts free version of open source models, in this case, llama3-8b. 
+2. Set environment variables for Open Router's API: 
+```bash
+export ASSESSMENT_CHAT_MODEL="meta-llama/llama-3-8b-instruct:free"
+export ASSESSMENT_BASE_URL="https://openrouter.ai/api/v1"
+export ASSESSMENT_API_KEY="<api-key-from-open-router>"
 ```
-2. Run the query_knowledge_base.sh script with the query string as an argument:
-```sh
-./query_knowledge_base.sh "How does Hotmart work?"
+	    ***Any other OpenAI-compatible provider can be used,** 
+3. Spin up APIs and vectorstore containers using *docker-compose*:
+	```bash
+	docker-compose up --build
+	```
+4. **cURL to send example.txt file, split into chunks and add chunks as documents on vectorstore**:
+```bash
+curl -X POST "http://localhost:8001/api/document" -F "file=@example.txt
+``` 
+5. **cURL to send a question to the knowledge base and receive both context used and LLM-generated response:**
+ ```bash
+ curl -X POST "http://localhost:8002/api/retrieval" \
+-H "Content-Type: application/json" \
+-d '{"question": "Como funciona a plataforma?"}'
 ```
+## Technical Overview
+- **Open-source** models for embeddings and LLMs: *spaCy* and *llama3-8b* (hosted or local).
+- **FastAPI** for both APIs: *ingestion-api* (document ingestion) and *retrieval-api* (retrieval  augmented generation).
+- **Weaviate** as vector store database.
+- **Docker** for containers and **Docker Compose** for orchestration.
+- **OpenAI-Compatible** implementation, meaning any hosted or local provider that exposes a OpenAI-compatible endpoint can be used.
+
+## Experimenting and optimizing
+
+### Swap models and providers
+- ASSESSMENT_CHAT_MODEL, ASSESSMENT_BASE_URL and ASSESSMENT_API_KEY environment variables can be changed if provider has OpenAI-compatible endpoints. For `llama3-8b`, I would recommend hosted APIs like **OpenRouter** and **Groq** or [Ollama](https://ollama.com/) for locally running open source models.
+### Tuning Text Splitting
+- CHUNK_SIZE and CHUNK_OVERLAP parameters can be changed through environment variables:
+  ```bash
+  docker compose down -v
+  CHUNK_SIZE=1000 CHUNK_OVERLAP=20 docker-compose up --build
+  ```
