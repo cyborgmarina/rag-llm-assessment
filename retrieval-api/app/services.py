@@ -13,9 +13,9 @@ from langchain_openai import ChatOpenAI
 from app.models import Response, Query
 
 from app.constants import (
-    OPENROUTER_API_BASE,
-    OPENROUTER_API_KEY,
-    OPENROUTER_DEFAULT_CHAT_MODEL,
+    API_KEY,
+    BASE_URL,
+    CHAT_MODEL,
     PROMPT_TEMPLATE,
 )
 
@@ -63,9 +63,9 @@ class AugmentedRetrievalService:
 
     def generate_response_from_knowledge_base(self, question: str) -> Response:
         llm = ChatOpenAI(
-            base_url=OPENROUTER_API_BASE,
-            api_key=OPENROUTER_API_KEY,
-            model=OPENROUTER_DEFAULT_CHAT_MODEL,
+            base_url=BASE_URL,
+            api_key=API_KEY,
+            model=CHAT_MODEL,
             temperature=0.1,
         )
         prompt = PromptTemplate.from_template(PROMPT_TEMPLATE)

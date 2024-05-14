@@ -1,12 +1,9 @@
 from os import getenv
 
-OPENROUTER_BASE = "https://openrouter.ai"
-OPENROUTER_API_BASE = f"{OPENROUTER_BASE}/api/v1"
-OPENROUTER_DEFAULT_CHAT_MODEL = "meta-llama/llama-3-70b-instruct:nitro"
-# OPENROUTER_DEFAULT_CHAT_MODEL = getenv(
-#    "OPENROUTER_DEFAULT_CHAT_MODEL", "meta-llama/llama-3-8b-instruct:free"
-# )
-OPENROUTER_API_KEY = getenv("OPENROUTER_API_KEY")
+BASE_URL = getenv("BASE_URL", "https://openrouter.ai/api/v1")
+CHAT_MODEL = getenv("CHAT_MODEL", "meta-llama/llama-3-8b-instruct:free")
+API_KEY = getenv("API_KEY")
+
 PROMPT_TEMPLATE = """
 Use as seguintes peças de contexto para responder à pergunta no final.
 Se você não souber a resposta, apenas diga que não sabe, não tente inventar uma resposta.
