@@ -5,11 +5,14 @@ from langchain_weaviate.vectorstores import WeaviateVectorStore
 
 from typing import List
 from fastapi import HTTPException, status
-from app.models import Document
 
 import weaviate
 from weaviate.connect import ConnectionParams
 from weaviate.classes.init import AdditionalConfig, Timeout
+
+
+from app.models import Document
+from app.constants import CHUNK_SIZE, CHUNK_OVERlAP
 
 
 class DocumentService:
@@ -44,16 +47,16 @@ class DocumentService:
 
         # Split text into chunks
         docs = self._split_text([document.text])
-        print(len(docs))
 
         # Create embeddings and store in Weaviate
         self._store_in_weaviate(docs)
+        return len(docs)
 
     def _split_text(self, texts: List[str]) -> List[str]:
         text_splitter = CharacterTextSplitter(
-            separator=" ",
-            chunk_size=1000,
-            chunk_overlap=100,
+            separator="\n",
+            chunk_size=int(CHUNK_SIZE),
+            chunk_overlap=int(CHUNK_OVERlAP),
             length_function=len,
             is_separator_regex=False,
         )
