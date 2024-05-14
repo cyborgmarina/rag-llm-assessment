@@ -1,9 +1,11 @@
 from pydantic import BaseModel
-from typing import List
+from typing import List, Optional
+
 
 class Query(BaseModel):
     question: str
 
+
 class Response(BaseModel):
-    context: List[str]
+    context: Optional[str] = None
     assistantResponse: str
