@@ -9,6 +9,9 @@ services:
     ports:
       - "8001:8000"
     command: poetry run uvicorn app.main:app --host 0.0.0.0 --port 8000
+    environment:
+      - CHUNK_SIZE=$CHUNK_SIZE
+      - CHUNK_OVERLAP=$CHUNK_OVERLAP
     depends_on:
       - vectordb
 
@@ -23,7 +26,9 @@ services:
       - "8002:8000"
     command: poetry run uvicorn app.main:app --host 0.0.0.0 --port 8000
     environment:
-      - OPENROUTER_API_KEY=$OPENROUTER_API_KEY
+      - API_KEY=$ASSESSMENT_API_KEY
+      - BASE_URL=$ASSESSMENT_BASE_URL
+      - CHAT_MODEL=$ASSESSMENT_CHAT_MODEL
     depends_on:
       - vectordb
 
