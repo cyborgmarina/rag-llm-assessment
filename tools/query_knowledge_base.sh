@@ -23,9 +23,15 @@ RESPONSE=$(curl -s -X POST http://localhost:8002/api/retrieval \
 	-H "Content-Type: application/json" \
 	--data-binary "$JSON_PAYLOAD")
 
+echo "#####"
+echo "#####"
 echo "Context from Knowledge Base:"
 echo "$RESPONSE" | jq -r '.context'
 echo "#####"
 echo "#####"
+echo "#####"
+echo "#####"
 echo "Assistant Response:"
 echo "$RESPONSE" | jq -r '.assistantResponse'
+echo "#####"
+echo "#####"
