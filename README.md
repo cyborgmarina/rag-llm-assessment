@@ -6,7 +6,7 @@
 ```bash
 API_KEY="<api-key-from-open-router>"
 ```
-1. Spin up APIs and vectorstore containers using *docker-compose*:
+3. aSpin up APIs and vectorstore containers using *docker-compose*:
 	```bash
 	docker-compose up --build
 	```
