@@ -24,3 +24,15 @@ Demonstrate skills in applying existing technologies to create a knowledge-based
 - `README.md` with project information and step-by-step instructions on how to run it.
 - A set of input examples (Postman, cURL, shell scripts, etc.) for testing and reproducibility.
 
+### Load
+### Query
+1. Make sure jq is installed. You can install it using your package manager, for example:
+```sh
+sudo apt-get install jq      # On Debian/Ubuntu
+sudo yum install jq          # On CentOS/RHEL
+brew install jq
+```
+2. Run the query_knowledge_base.sh script with the query string as an argument:
+```sh
+./query_knowledge_base.sh "How does Hotmart work?"
+```
